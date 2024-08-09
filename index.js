@@ -1,7 +1,10 @@
-import express from "express";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const path = require("path");
+
+const pages = path.join(__dirname, "pages");
 
 const app = express();
 dotenv.config();
@@ -12,11 +15,7 @@ const username = process.env.MONGODB_USERNAME;
 const password = process.env.MONGODB_PASSWORD;
 
 mongoose.connect(
-  `mongodb+srv://${username}:${password}@cluster0.88y0yio.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
+  `mongodb+srv://${username}:${password}@cluster0.88y0yio.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 );
 
 const registrationSchema = new mongoose.Schema({
@@ -31,9 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.sendFile(
-    "/Personal/Certificate_course/BharatIntern/RegistrationForm/pages/index.html"
-  );
+  res.sendFile(pages + "/index.html");
 });
 
 app.post("/register", async (req, res) => {
@@ -58,21 +55,15 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/success", (req, res) => {
-  res.sendFile(
-    "/Personal/Certificate_course/BharatIntern/RegistrationForm/pages/success.html"
-  );
+  res.sendFile(pages + "/success.html");
 });
 
 app.get("/error", (req, res) => {
-  res.sendFile(
-    "/Personal/Certificate_course/BharatIntern/RegistrationForm/pages/error.html"
-  );
+  res.sendFile(pages + "/error.html");
 });
 
 app.get("/existing", (req, res) => {
-  res.sendFile(
-    "/Personal/Certificate_course/BharatIntern/RegistrationForm/pages/existingUserError.html"
-  );
+  res.sendFile(pages + "/existingUserError.html");
 });
 
 app.listen(port, () => {
